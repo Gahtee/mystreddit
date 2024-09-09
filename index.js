@@ -132,17 +132,3 @@ function top10 (sub, id) { //escreve todos os ids do top10 em um txt
 //Se for video, transformar em mp4 usando alguma bosta
 //embedar e mandar no discord, não sei fazer dinamicamente então o channelid e o link do reddit vai ficar no env
 //baixar -> ffmpeg -> mandar -> deletar
-
-/*
-        fs.readFile(`./database/${sub}`, function(err, data){
-            var includes = data
-            return includes
-        });
-        if (rnd(sub,id)) {
-            console.log("penis")
-        }
-        else {
-            fs.writeFile()
-        };
-        console.log(id,sub);
-    */
