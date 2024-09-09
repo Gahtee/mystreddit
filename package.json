@@ -23,6 +23,8 @@
   "homepage": "https://github.com/Gahtee/mystreddit#readme",
   "dependencies": {
     "discord.js": "^14.16.1",
-    "dotenv": "^16.4.5"
+    "dotenv": "^16.4.5",
+    "fs": "^0.0.1-security",
+    "rss-parser": "^3.13.0"
   }
 }
