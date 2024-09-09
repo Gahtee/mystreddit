@@ -27,7 +27,8 @@ const reddit = env.reddit.split(",")
 //usa-se como ultimo o id da ultima postagem
 //tentar organizar pelos melhores de um periodo de tempo (semana,)
 for (var num = reddit.length-1; num != -1; num --) {
-    console.log(reddit[num])
+    var r = `https://www.reddit.com/r/${reddit[num]}/top.rss?t=day`
+    console.log(r)
 }
 
 //criar um loop de x secundos (300?) 
