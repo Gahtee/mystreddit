@@ -39,7 +39,6 @@ const reddit = env.reddit.split(",");
 //RSS Reddit
 //A base é que se voce por .rss no final de algum subrred, conseguirá o rss dele
 //usa-se como ultimo o id da ultima postagem
-//tentar organizar pelos melhores de um periodo de tempo (semana,)
 
 async function redd() {
     while (true) {
@@ -91,7 +90,7 @@ async function redd() {
             }
         }
       await new Promise(resolve => setTimeout(resolve, 60000)); // espera por 60 segundos
-      console.log('Running...');
+      console.log('Rodando...');
     }
   }
 
@@ -104,7 +103,6 @@ function top10 (sub, id) { //escreve todos os ids do top10 em um txt
         else {
             var data = fs.readFileSync(`./database/${sub}.txt`).toString().split(" ",7);
             data.push(id);
-            //console.log(data)
             fs.writeFileSync(`./database/${sub}.txt`, data.toString())
             return true
         }
@@ -113,40 +111,4 @@ function top10 (sub, id) { //escreve todos os ids do top10 em um txt
         fs.writeFileSync(`./database/${sub}.txt`, id)
         return true
     }
-}
-//esta é uma maneira burra de se fazer isso, mas funciona.
-
-
-//---------ATENÇÃO---------
-//são 3 etapas, checar antigos, mandar novos, deletar antigos
-//acabei perdendo um pouco o rumo, preciso fazer uma variavel contendo todos os ids dos top10 post do reddit
-//1 etapa: ver tudo o que tem na lista atual - OK
-//2 etapa: ver como está a nova lista (atualizada) - OK
-//3 etapa: manda os novos itens para o discord
-//4 etapa: apagar todos os itens que não forem novos (pode ser feito apagando tudo e sobrescrevendo) - OK
-//---------ATENÇÃO---------
-
-
-
-
-//criar um loop de x secundos (300?) 
-
-
-
-
-
-//Ytdlp
-
-
-
-
-//mandar para o discord
-
-
-
-
-//A ideia vai ser ler o RSS a cada x segundos, caso tenha algo novo ele irá
-//Pegar o link do post do reddit
-//Se for video, transformar em mp4 usando alguma bosta
-//embedar e mandar no discord, não sei fazer dinamicamente então o channelid e o link do reddit vai ficar no env
-//baixar -> ffmpeg -> mandar -> deletar
+} //Parece existir maneiras melhores de fazer isso.
