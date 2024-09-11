@@ -28,7 +28,7 @@ client.once(Events.ClientReady, readyClient => {
     redd();
 });
 
-client.login(env.TOKEN);
+client.login(env.token);
 
 const reddit = env.reddit.split(",");
 
@@ -51,32 +51,36 @@ async function redd() {
                     fs.openSync(`./database/${sub}.txt`, 'w+')
                 }
                 for (var it = 0; it != 10; it++) {
-                    if (rss.items[it].content.includes('src')){
                         id.push(rss.items[it].link);
-                    }
                 }
                 for (var it = id.length-1; it != -1; it--) {
                     if (top10(sub, id[it])) {
-                        var author = rss.items[it].author;
-                        var title = rss.items[it].title.toString();
-                        if (rss.items[it].content.split("<span><a href=\"https://")[1].split("/")[0] != "v.redd.it") {
-                            var img = rss.items[it].content.split("<span><a href=\"")[1].split("\">[link]")[0];
-                            const embed = new EmbedBuilder()
-                                .setColor(0xFF5700)
-                                .setTitle(title)
-                                .setURL(id[it])
-                                .setAuthor({ name: `${author}`, url: `https://www.reddit.com${author}` })
-                                .setThumbnail('https://www.iconpacks.net/icons/2/free-reddit-logo-icon-2436-thumb.png')
-                                .setImage(img)
-                            client.channels.cache.get(env.channelid).send({ embeds: [embed] });
+                        var links = rss.items[it].content.split("<span><a href=\"https://")[1].split("/")[0]
+                        if (!rss.items[it].content.includes('src') && links != "v.redd.it" && links != "i.redd.it" ){
+                            console.log('não inclui: ', !rss.items[it].content.includes('src'), rss.items[it].content, "\n\n")
+                            nen++
                         } else {
-                            client.channels.cache.get(env.channelid).send(`&download ${id[it]} | ${sub} | ${author} | ${title}`)
-                            .then(sentMessage => {
-                                setTimeout(() => {
-                                    sentMessage.delete();
-                                }, 5000); // 5 segundos
-                            })
+                            var author = rss.items[it].author;
+                            var title = rss.items[it].title.toString();
+                            if (rss.items[it].content.split("<span><a href=\"https://")[1].split("/")[0] != "v.redd.it") {
+                                var img = rss.items[it].content.split("<span><a href=\"")[1].split("\">[link]")[0];
+                                const embed = new EmbedBuilder()
+                                    .setColor(0xFF5700)
+                                    .setTitle(title)
+                                    .setURL(id[it])
+                                    .setAuthor({ name: `${author}`, url: `https://www.reddit.com${author}` })
+                                    .setThumbnail('https://www.iconpacks.net/icons/2/free-reddit-logo-icon-2436-thumb.png')
+                                    .setImage(img)
+                                client.channels.cache.get(env.channelid).send({ embeds: [embed] });
+                            } else {
+                                client.channels.cache.get(env.channelid).send(`&download ${id[it]} | ${sub} | ${author} | ${title}`)
+                                .then(sentMessage => {
+                                    setTimeout(() => {
+                                        sentMessage.delete();
+                                    }, 5000); // 5 segundos
+                                })
 
+                            }
                         }
                     }
                     else {
