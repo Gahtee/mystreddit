@@ -63,8 +63,8 @@ async function redd() {
                     if (top10(sub, id[it])) {
                         var author = rss.items[it].author;
                         var title = rss.items[it].title.toString();
-                        var img = rss.items[it].content.split("<span><a href=\"")[1].split("\">[link]")[0];
-                        if (!rss.entry['media:thumbnail'][it]) {
+                        if (rss.items[it].content.split("<span><a href=\"https://")[1].split("/")[0] != "v.redd.it") {
+                            var img = rss.items[it].content.split("<span><a href=\"")[1].split("\">[link]")[0];
                             const embed = new EmbedBuilder()
                                 .setColor(0xFF5700)
                                 .setTitle(title)
@@ -74,7 +74,6 @@ async function redd() {
                                 .setImage(img)
                             client.channels.cache.get(env.channelid).send({ embeds: [embed] });
                         } else {
-                            console.log('foi')
                             client.channels.cache.get(env.channelid).send(`&download ${id[it]} | ${sub} | ${author} | ${title}`)
                             .then(sentMessage => {
                                 setTimeout(() => {
