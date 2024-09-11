@@ -14,10 +14,6 @@ let parser = new Parser({
 const { Client, Events, GatewayIntentBits, EmbedBuilder } = require('discord.js');
 const env = process.env
 
-function sleep (time) {
-    return new Promise((resolve) => setTimeout(resolve, time));
-  }
-
 //Código de iniciação
 const client = new Client({ intents: [
     GatewayIntentBits.Guilds,
