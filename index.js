@@ -15,16 +15,17 @@ const { Client, Events, GatewayIntentBits, EmbedBuilder } = require('discord.js'
 const env = process.env
 
 //Código de iniciação
-const client = new Client({ intents: [
-    GatewayIntentBits.Guilds,
-    GatewayIntentBits.GuildMessages,
-	GatewayIntentBits.MessageContent,
-    GatewayIntentBits.GuildMembers,
-],
+const client = new Client({
+    intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.MessageContent,
+        GatewayIntentBits.GuildMembers,
+    ],
 });
 
 client.once(Events.ClientReady, readyClient => {
-	console.log(`Iniciado! logado como ${readyClient.user.tag}`);
+    console.log(`Iniciado! logado como ${readyClient.user.tag}`);
     redd();
 });
 
@@ -39,7 +40,7 @@ const reddit = env.reddit.split(",");
 async function redd() {
     try {
         while (true) {
-            for (var num = reddit.length-1; num != -1; num --) {
+            for (var num = reddit.length - 1; num != -1; num--) {
                 var redd = `https://www.reddit.com/r/${reddit[num]}/hot.rss`;
                 var rss = await parser.parseURL(redd)
                 var nen = 0
@@ -51,13 +52,12 @@ async function redd() {
                     fs.openSync(`./database/${sub}.txt`, 'w+')
                 }
                 for (var it = 0; it != 10; it++) {
-                        id.push(rss.items[it].link);
+                    id.push(rss.items[it].link);
                 }
-                for (var it = id.length-1; it != -1; it--) {
+                for (var it = id.length - 1; it != -1; it--) {
                     if (top10(sub, id[it])) {
                         var links = rss.items[it].content.split("<span><a href=\"https://")[1].split("/")[0]
-                        if (!rss.items[it].content.includes('src') && links != "v.redd.it" && links != "i.redd.it" ){
-                            console.log('não inclui: ', !rss.items[it].content.includes('src'), rss.items[it].content, "\n\n")
+                        if (!rss.items[it].content.includes('src') && links != "v.redd.it" && links != "i.redd.it") {
                             nen++
                         } else {
                             var author = rss.items[it].author;
@@ -74,11 +74,11 @@ async function redd() {
                                 client.channels.cache.get(env.channelid).send({ embeds: [embed] });
                             } else {
                                 client.channels.cache.get(env.channelid).send(`&download ${id[it]} | ${sub} | ${author} | ${title}`)
-                                .then(sentMessage => {
-                                    setTimeout(() => {
-                                        sentMessage.delete();
-                                    }, 5000); // 5 segundos
-                                })
+                                    .then(sentMessage => {
+                                        setTimeout(() => {
+                                            sentMessage.delete();
+                                        }, 5000); // 5 segundos
+                                    })
 
                             }
                         }
@@ -88,34 +88,34 @@ async function redd() {
                     }
                 }
                 if (nen != 10) {
-                    var antigo = fs.readFileSync(`./database/${sub}.txt`).toString().split(" ",7);
+                    var antigo = fs.readFileSync(`./database/${sub}.txt`).toString().split(" ", 7);
                     if (!antigo.includes(id))
                         fs.writeFileSync(`./database/${sub}.txt`, id.toString())
                 }
             }
-        await new Promise(resolve => setTimeout(resolve, 60000)); // espera por 60 segundos
-        console.log('Rodando...');
+            await new Promise(resolve => setTimeout(resolve, 60000)); // espera por 60 segundos
+            console.log('Rodando...');
         }
-    }  catch (e) {
+    } catch (e) {
         console.log(e)
     }
 }
-    function top10 (sub, id) { //escreve todos os ids do top10 em um txt
-        if (fs.existsSync(`./database/${sub}.txt`)) {
-            var ids = fs.readFileSync(`./database/${sub}.txt`).toString();
-            if (ids.includes(id)) {
-                return false;
-            }
-            else {
-                var data = fs.readFileSync(`./database/${sub}.txt`).toString().split(" ",7);
-                data.push(id);
-                fs.writeFileSync(`./database/${sub}.txt`, data.toString())
-                return true
-            }
+function top10(sub, id) { //escreve todos os ids do top10 em um txt
+    if (fs.existsSync(`./database/${sub}.txt`)) {
+        var ids = fs.readFileSync(`./database/${sub}.txt`).toString();
+        if (ids.includes(id)) {
+            return false;
         }
         else {
-            fs.writeFileSync(`./database/${sub}.txt`, id)
+            var data = fs.readFileSync(`./database/${sub}.txt`).toString().split(" ", 7);
+            data.push(id);
+            fs.writeFileSync(`./database/${sub}.txt`, data.toString())
             return true
         }
+    }
+    else {
+        fs.writeFileSync(`./database/${sub}.txt`, id)
+        return true
+    }
 
 } //Parece existir maneiras melhores de fazer isso.
