@@ -62,7 +62,7 @@ async function redd() {
                         } else {
                             var author = rss.items[it].author;
                             var titleb = rss.items[it].title.toString();
-                            if (title.length >= 255) {
+                            if (titleb.length >= 255) {
                                 var title = title.match(/.{1,255}(?:\s|$)/g)[0];
                             } else {
                                 var title = titleb
