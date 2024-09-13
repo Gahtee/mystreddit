@@ -42,7 +42,7 @@ async function redd() {
         while (true) {
             for (var num = reddit.length - 1; num != -1; num--) {
                 var redd = `https://www.reddit.com/r/${reddit[num]}/hot.rss`;
-                await new Promise(resolve => setTimeout(resolve, 600000))
+                await new Promise(resolve => setTimeout(resolve, 60000))
                 var rss = await parser.parseURL(redd)
                 var nen = 0
                 var sub = rss.items[0].content.split("/r/")[1].split("/")[0];
