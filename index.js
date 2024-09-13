@@ -11,7 +11,7 @@ let parser = new Parser({
     }
 });
 
-const { Client, Events, GatewayIntentBits, EmbedBuilder } = require('discord.js');
+const { Client, Events, GatewayIntentBits, EmbedBuilder, TextInputBuilder } = require('discord.js');
 const env = process.env
 
 //Código de iniciação
@@ -61,7 +61,12 @@ async function redd() {
                             nen++
                         } else {
                             var author = rss.items[it].author;
-                            var title = rss.items[it].title.toString();
+                            var titleb = rss.items[it].title.toString();
+                            if (title.length >= 255) {
+                                var title = title.match(/.{1,255}(?:\s|$)/g)[0];
+                            } else {
+                                var title = titleb
+                            }
                             if (rss.items[it].content.split("<span><a href=\"https://")[1].split("/")[0] != "v.redd.it") {
                                 var img = rss.items[it].content.split("<span><a href=\"")[1].split("\">[link]")[0];
                                 const embed = new EmbedBuilder()
